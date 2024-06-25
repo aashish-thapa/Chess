@@ -43,9 +43,13 @@ function createBoard() {
                 pieceElement.className = 'piece';
                 pieceElement.src = pieceImages[piece];
                 pieceElement.dataset.color = piece === piece.toUpperCase() ? 'white' : 'black';
+                pieceElement.draggable = true;
+                pieceElement.addEventListener('dragstart', onDragStart);
                 square.appendChild(pieceElement);
             }
             square.addEventListener('click', onSquareClick);
+            square.addEventListener('dragover', onDragOver);
+            square.addEventListener('drop', onDrop);
             chessboard.appendChild(square);
         }
     }
@@ -76,7 +80,6 @@ function movePiece(square) {
         selectedPiece.parentElement.classList.remove('selected');
         clearHighlights();
         selectedPiece = null;
-
         return;
     }
     if (canMove(selectedPiece.parentElement, square)) {
@@ -93,6 +96,7 @@ function movePiece(square) {
         selectedPiece = null;
     }
 }
+
 function highlightMoves(square, piece) {
     const startRow = parseInt(square.dataset.row);
     const startCol = parseInt(square.dataset.col);
@@ -110,10 +114,12 @@ function highlightMoves(square, piece) {
 
     moves.forEach(move => move.classList.add('highlight'));
 }
+
 function clearHighlights() {
     const highlights = document.querySelectorAll('.highlight');
     highlights.forEach(square => square.classList.remove('highlight'));
 }
+
 function canMove(startSquare, endSquare) {
     const startRow = parseInt(startSquare.dataset.row);
     const startCol = parseInt(startSquare.dataset.col);
@@ -131,8 +137,6 @@ function canMove(startSquare, endSquare) {
 
     return false;
 }
-
-
 
 function canMovePawn(startRow, startCol, endRow, endCol, color) {
     const direction = color === 'white' ? -1 : 1;
@@ -161,7 +165,6 @@ function canMoveRook(startRow, startCol, endRow, endCol) {
 
     return true;
 }
-
 function canMoveKnight(startRow, startCol, endRow, endCol) {
     const rowDiff = Math.abs(startRow - endRow);
     const colDiff = Math.abs(startCol - endCol);
@@ -190,4 +193,51 @@ function canMoveKing(startRow, startCol, endRow, endCol) {
     return Math.abs(startRow - endRow) <= 1 && Math.abs(startCol - endCol) <= 1;
 }
 
+function onDragStart(e) {
+    const piece = e.target;
+    const square = piece.parentElement;
+    selectedPiece = piece;
+    square.classList.add('selected');
+    highlightMoves(square, piece);
+}
+
+function onDragOver(e) {
+    e.preventDefault();
+}
+
+function onDrop(e) {
+    const square = e.currentTarget;
+    movePiece(square);
+}
+
+function onTouchStart(e) {
+    const square = e.currentTarget;
+    const piece = square.querySelector('.piece');
+
+    if (selectedPiece) {
+        movePiece(square);
+    } else if (piece && piece.dataset.color === turn) {
+        selectPiece(square, piece);
+    }
+}
+
+function onTouchMove(e) {
+    e.preventDefault();
+}
+
+function onTouchEnd(e) {
+    const touch = e.changedTouches[0];
+    const target = document.elementFromPoint(touch.clientX, touch.clientY);
+    
+    if (target.classList.contains('square')) {
+        movePiece(target);
+    }
+}
+
 createBoard();
+chessboard.addEventListener('touchstart', onTouchStart);
+chessboard.addEventListener('touchmove', onTouchMove);
+chessboard.addEventListener('touchend', onTouchEnd);
+
+
+   
