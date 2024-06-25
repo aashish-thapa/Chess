@@ -23,7 +23,7 @@ To play the game, simply open `index.html` in a web browser that supports HTML5 
 
 ### Screenshots
 
-![Game Screenshot](./images/chess.png)
+![Game Screenshot](./images/Chess.png)
 
 ### Contributing
 
