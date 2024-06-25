@@ -1,8 +1,3 @@
-Certainly! Below is an example of a `README.md` file that you can include in your GitHub repository for your chess game project:
-
-### README.md
-
----
 
 # Two-Player Chess Game
 
@@ -28,7 +23,7 @@ To play the game, simply open `index.html` in a web browser that supports HTML5 
 
 ### Screenshots
 
-![Game Screenshot](screenshots/game.png)
+![Game Screenshot](chess.png)
 
 ### Contributing
 
@@ -44,5 +39,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Thanks to [OpenAI](https://openai.com) for training ChatGPT, which assisted in developing this game.
 
 ---
-
-Feel free to adjust the sections and content according to your specific project details, screenshots, and licensing preferences. This README provides a brief overview of the project, its features, how to use it, and invites contributions, ensuring clarity for users and potential contributors on GitHub.
