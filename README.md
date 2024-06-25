@@ -20,6 +20,8 @@ This is a simple two-player chess game implemented in HTML, CSS, and JavaScript.
 ### Usage
 
 To play the game, simply open `index.html` in a web browser that supports HTML5 and JavaScript.
+OR
+visit: (https://aashish-thapa.github.io/Chess/)
 
 ### Screenshots
 
