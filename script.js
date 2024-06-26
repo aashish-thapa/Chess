@@ -45,11 +45,15 @@ function createBoard() {
                 pieceElement.dataset.color = piece === piece.toUpperCase() ? 'white' : 'black';
                 pieceElement.draggable = true;
                 pieceElement.addEventListener('dragstart', onDragStart);
+                pieceElement.addEventListener('touchstart', onTouchStart);
                 square.appendChild(pieceElement);
             }
             square.addEventListener('click', onSquareClick);
             square.addEventListener('dragover', onDragOver);
             square.addEventListener('drop', onDrop);
+            square.addEventListener('touchstart', onTouchStart);
+            square.addEventListener('touchmove', onTouchMove);
+            square.addEventListener('touchend', onTouchEnd);
             chessboard.appendChild(square);
         }
     }
@@ -165,6 +169,7 @@ function canMoveRook(startRow, startCol, endRow, endCol) {
 
     return true;
 }
+
 function canMoveKnight(startRow, startCol, endRow, endCol) {
     const rowDiff = Math.abs(startRow - endRow);
     const colDiff = Math.abs(startCol - endCol);
@@ -196,6 +201,12 @@ function canMoveKing(startRow, startCol, endRow, endCol) {
 function onDragStart(e) {
     const piece = e.target;
     const square = piece.parentElement;
+
+    if (piece.dataset.color !== turn) {
+        e.preventDefault();
+        return;
+    }
+
     selectedPiece = piece;
     square.classList.add('selected');
     highlightMoves(square, piece);
@@ -214,6 +225,10 @@ function onTouchStart(e) {
     const square = e.currentTarget;
     const piece = square.querySelector('.piece');
 
+    if (piece && piece.dataset.color !== turn) {
+        return;
+    }
+
     if (selectedPiece) {
         movePiece(square);
     } else if (piece && piece.dataset.color === turn) {
@@ -228,16 +243,10 @@ function onTouchMove(e) {
 function onTouchEnd(e) {
     const touch = e.changedTouches[0];
     const target = document.elementFromPoint(touch.clientX, touch.clientY);
-    
+
     if (target.classList.contains('square')) {
         movePiece(target);
     }
 }
 
 createBoard();
-chessboard.addEventListener('touchstart', onTouchStart);
-chessboard.addEventListener('touchmove', onTouchMove);
-chessboard.addEventListener('touchend', onTouchEnd);
-
-
-   
