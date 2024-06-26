@@ -60,3 +60,30 @@ h1 {
     height: 50px;
     cursor: grab;
 }
+
+@media screen and (max-width: 600px){
+    #chessboard{
+        display: grid;
+        grid-template-columns: repeat(8, 30px);
+        grid-template-rows: repeat(8, 30px);
+        gap: 0;
+        border: 2px solid #333;
+        transform-style: preserve-3d;
+    }
+    .square {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    
+    .piece{
+        width: 20px;
+        height: 20px;
+        cursor: grab;
+    }
+}
